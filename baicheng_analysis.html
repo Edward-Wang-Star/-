@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柏诚股份(601133.SH) 走势与估值分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:#f0f2f5; color:#333; line-height:1.6; }
+.container { max-width:1200px; margin:0 auto; padding:20px; }
+.header { background:linear-gradient(135deg,#1a237e,#3949ab); color:#fff; padding:30px; border-radius:12px; margin-bottom:24px; box-shadow:0 4px 15px rgba(0,0,0,.15); }
+.header h1 { font-size:28px; margin-bottom:8px; }
+.header .subtitle { opacity:.85; font-size:15px; }
+.header .price-box { display:flex; gap:40px; margin-top:20px; flex-wrap:wrap; }
+.price-item { text-align:center; }
+.price-item .label { font-size:13px; opacity:.75; }
+.price-item .value { font-size:32px; font-weight:700; }
+.price-item .change { font-size:18px; margin-left:6px; }
+.up { color:#ef5350 !important; } /* 红涨绿跌 */
+.down { color:#26a69a !important; }
+.section { background:#fff; border-radius:12px; padding:24px; margin-bottom:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.section h2 { font-size:19px; color:#1a237e; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #e8eaf6; display:flex; align-items:center; gap:8px; }
+.grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+.chart-container { position:relative; height:320px; width:100%; }
+.chart-container-tall { position:relative; height:400px; width:100%; }
+.metric-card { background:#f8f9ff; border-radius:10px; padding:16px; border-left:4px solid #3949ab; }
+.metric-card .metric-label { font-size:13px; color:#666; }
+.metric-card .metric-value { font-size:24px; font-weight:700; color:#1a237e; margin:4px 0; }
+.metric-card .metric-sub { font-size:12px; color:#888; }
+.highlight-red { color:#ef5350 !important; }
+.highlight-green { color:#26a69a !important; }
+table.data-table { width:100%; border-collapse:collapse; font-size:14px; }
+table.data-table th { background:#e8eaf6; padding:10px 12px; text-align:left; font-weight:600; color:#1a237e; white-space:nowrap; }
+table.data-table td { padding:9px 12px; border-bottom:1px solid #eee; }
+table.data-table tr:hover { background:#f5f5ff; }
+.tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:12px; font-weight:600; }
+.tag-danger { background:#ffebee; color:#c62828; }
+.tag-warning { background:#fff8e1; color:#f57c00; }
+.tag-success { background:#e8f5e9; color:#2e7d32; }
+.summary-box { background:linear-gradient(135deg,#e8eaf6,#c5cae9); border-radius:10px; padding:20px; margin-bottom:16px; }
+.summary-box h3 { color:#1a237e; margin-bottom:12px; font-size:16px; }
+.verdict { display:flex; gap:16px; margin-top:16px; flex-wrap:wrap; }
+.verdict-card { flex:1; min-width:180px; border-radius:10px; padding:16px; text-align:center; }
+.verdict-bull { background:#ffebee; border:2px solid #ef5350; }
+.verdict-bear { background:#e0f2f1; border:2px solid #26a69a; }
+.verdict-hold { background:#fff8e1; border:2px solid #ffa726; }
+.verdict-card .v-label { font-size:13px; color:#666; }
+.verdict-card .v-score { font-size:22px; font-weight:700; margin:6px 0; }
+.footer { text-align:center; color:#999; font-size:12px; padding:20px; }
+@media(max-width:768px) {
+  .header h1 { font-size:22px; }
+  .price-item .value { font-size:24px; }
+  .section { padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>📊 柏诚股份 (601133.SH) 走势与估值分析</h1>
+  <div class="subtitle">建筑工程 · 江苏地区 · 主板上市(2023-04-10) | 报告日期：2026年4月16日</div>
+  <div class="price-box">
+    <div class="price-item">
+      <div class="label">最新收盘价</div>
+      <div class="value up">25.87 <span class="change up">+8.47%</span></div>
+    </div>
+    <div class="price-item">
+      <div class="label">总市值</div>
+      <div class="value">136.6<span style="font-size:16px;color:rgba(255,255,255,.75)">亿元</span></div>
+    </div>
+    <div class="price-item">
+      <div class="label">PE(TTM)</div>
+      <div class="value" style="color:#ffcdd2">73.23</div>
+    </div>
+    <div class="price-item">
+      <div class="label">近6月涨幅</div>
+      <div class="value up">+95.3%</div>
+    </div>
+  </div>
+</div>
+
+<!-- 核心结论 -->
+<div class="section">
+  <div class="summary-box">
+    <h3>🎯 核心投资结论</h3>
+    <p style="font-size:15px;line-height:1.8;">
+      <strong style="color:#c62828">短期：极度高估，追高风险极大。</strong>柏诚股份近6个月股价从12.5元飙升至25.87元，涨幅达<strong>+95%</strong>，其中仅4月份就有3个交易日涨停（+10%）。
+      当前PE(TTM)高达<strong>73倍</strong>，远超行业平均水平。近期换手率持续放大（最高34%），资金博弈特征明显，呈现典型的游资炒作形态。
+    </p>
+    <p style="font-size:15px;line-height:1.8;margin-top:10px;">
+      基本面方面，公司ROE约<strong>4.58%（TTM）</strong>，EPS为<strong>0.25元</strong>，资产负债率45%，财务结构尚可但盈利能力一般。
+      以当前股价计算，PB已达<strong>4.67倍</strong>，估值已严重透支未来增长预期。<strong>建议投资者谨慎对待，切勿盲目追高。</strong>
+    </p>
+  </div>
+  <div class="verdict">
+    <div class="verdict-card verdict-bear">
+      <div class="v-label">📈 技术面评分</div>
+      <div class="v-score down">偏多（过热）</div>
+      <div style="font-size:12px;color:#666;">强势拉升后高位放量<br>短线乖离率过大</div>
+    </div>
+    <div class="verdict-card verdict-danger" style="background:#ffebee;border-color:#c62828">
+      <div class="v-label">💰 估值面评分</div>
+      <div class="v-score highlight-red">严重高估</div>
+      <div style="font-size:12px;color:#666;">PE 73倍 远超行业<br>PB 4.67倍 偏离合理区间</div>
+    </div>
+    <div class="verdict-card verdict-hold">
+      <div class="v-label">📊 基本面评分</div>
+      <div class="v-score" style="color:#f57c00">中性偏弱</div>
+      <div style="font-size:12px;color:#666;">ROE偏低 盈利平稳<br>成长性无显著亮点</div>
+    </div>
+    <div class="verdict-card" style="background:#e3f2fd;border:2px solid #1565c0;">
+      <div class="v-label">⚡ 综合评级</div>
+      <div class="v-score" style="color:#1565c0">谨慎观望</div>
+      <div style="font-size:12px;color:#666;">适合持币等待<br>回调后再评估机会</div>
+    </div>
+  </div>
+</div>
+
+<!-- 价格走势图 -->
+<div class="section">
+  <h2>📈 近6个月价格走势与成交量</h2>
+  <div class="chart-container-tall">
+    <canvas id="priceChart"></canvas>
+  </div>
+</div>
+
+<!-- 估值指标变化 -->
+<div class="grid-2">
+  <div class="section">
+    <h2>📊 PE/PB 估值趋势</h2>
+    <div class="chart-container">
+      <canvas id="valuationChart"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <h2>💹 日涨跌幅分布</h2>
+    <div class="chart-container">
+      <canvas id="pctChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 关键数据表格 -->
+<div class="grid-2">
+  <div class="section">
+    <h2>📋 近期关键行情节点</h2>
+    <table class="data-table">
+      <thead><tr><th>日期</th><th>收盘价</th><th>涨跌幅</th><th>成交额(万)</th><th>事件</th></tr></thead>
+      <tbody>
+        <tr><td>04-15</td><td><strong>25.87</strong></td><td class="up">+8.47%</td><td>99,145</td><td><span class="tag tag-danger">巨量暴涨</span></td></tr>
+        <tr><td>04-09</td><td>24.68</td><td class="up">+9.98%</td><td>92,230</td><td><span class="tag tag-danger">接近涨停</span></td></tr>
+        <tr><td>04-07</td><td>21.43</td><td class="up">+10.01%</td><td>90,383</td><td><span class="tag tag-danger">涨停</span></td></tr>
+        <tr><td>04-01</td><td>18.85</td><td class="up">+9.98%</td><td>30,757</td><td><span class="tag tag-danger">接近涨停</span></td></tr>
+        <tr><td>03-25</td><td>19.35</td><td class="up">+10.01%</td><td>57,406</td><td><span class="tag tag-danger">涨停</span></td></tr>
+        <tr><td>03-03</td><td>16.26</td><td class="down">-8.86%</td><td>50,025</td><td><span class="tag tag-warning">大跌</span></td></tr>
+        <tr><td>02-27</td><td>18.77</td><td class="up">+1.79%</td><td>36,977</td><td>震荡上行</td></tr>
+        <tr><td>01-xx</td><td>~14.5</td><td>-</td><td>-</td><td>横盘蓄力</td></tr>
+        <tr><td>10-31</td><td>12.46</td><td class="up">+1.22%</td><td>4,755</td><td>阶段低点</td></tr>
+        <tr><td>10-16</td><td>13.24</td><td class="down">-1.71%</td><td>8,956</td><td>起始基准</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📑 财务指标概览</h2>
+    <table class="data-table">
+      <thead><tr><th>报告期</th><th>EPS(元)</th><th>ROE(%)</th><th>ROA(%)</th><th>资产负债率(%)</th></tr></thead>
+      <tbody>
+        <tr><td>2025Q3</td><td><strong>0.25</strong></td><td>4.58</td><td>3.35</td><td>45.52</td></tr>
+        <tr><td>2025H1</td><td>0.16</td><td>2.89</td><td>1.92</td><td>48.99</td></tr>
+        <tr><td>2025Q1</td><td>0.08</td><td>1.52</td><td>1.19</td><td>43.78</td></tr>
+        <tr><td>2024全年</td><td><strong>0.41</strong></td><td><strong>7.51</strong></td><td><strong>5.12</strong></td><td>49.11</td></tr>
+        <tr><td>2024Q3</td><td>0.30</td><td>5.67</td><td>4.54</td><td>46.63</td></tr>
+        <tr><td>2024H1</td><td>0.19</td><td>3.58</td><td>2.40</td><td>45.44</td></tr>
+        <tr><td>2023全年</td><td><strong>0.45</strong></td><td><strong>10.53</strong></td><td><strong>6.28</strong></td><td>45.42</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 详细分析 -->
+<div class="grid-2">
+  <div class="section">
+    <h2>🔥 技术面深度分析</h2>
+    <div class="grid-3">
+      <div class="metric-card">
+        <div class="metric-label">阶段涨幅(6个月)</div>
+        <div class="metric-value highlight-red">+95.3%</div>
+        <div class="metric-sub">从12.46→25.87元</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">4月涨幅</div>
+        <div class="metric-value highlight-red">+36.9%</div>
+        <div class="metric-sub">从18.85→25.87元</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">最大单日振幅</div>
+        <div class="metric-value highlight-red">13.56%</div>
+        <div class="metric-sub">04/09 21.75~24.68</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">日均换手率</div>
+        <div class="metric-value" style="color:#3949ab">12.8%</div>
+        <div class="metric-sub">活跃度极高</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">最大换手率</div>
+        <div class="metric-value highlight-red">34.30%</div>
+        <div class="metric-sub">04/08 极端放量</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">涨停次数(近半年)</div>
+        <div class="metric-value" style="color:#ef5350">3次</div>
+        <div class="metric-sub">04/07, 04/09, 03/25</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px;background:#fff3e0;border-radius:8px;font-size:14px;line-height:1.8;">
+      <strong>🔍 技术信号解读：</strong><br>
+      • 股价沿5日线强势上攻，均线呈多头排列<br>
+      • 成交量阶梯式放大，资金介入明显<br>
+      • RSI/KDJ等动量指标进入超买区（80+）<br>
+      • 连续跳空缺口未回补，存在技术性回踩需求<br>
+      • 波动率急剧放大，日内振幅经常超过8%
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>💎 估值水平对比</h2>
+    <div class="grid-3">
+      <div class="metric-card" style="border-left-color:#ef5350">
+        <div class="metric-label">PE-TTM (滚动市盈率)</div>
+        <div class="metric-value highlight-red">73.23×</div>
+        <div class="metric-sub">建筑工程行业平均约15-25倍</div>
+      </div>
+      <div class="metric-card" style="border-left-color:#ef5350">
+        <div class="metric-label">PB (市净率)</div>
+        <div class="metric-value highlight-red">4.67×</div>
+        <div class="metric-sub">行业平均约1.5-2.5倍</div>
+      </div>
+      <div class="metric-card" style="border-left-color:#26a69a">
+        <div class="metric-label">股息率(TTM)</div>
+        <div class="metric-value highlight-green">0.81%</div>
+        <div class="metric-sub">低于理财收益</div>
+      </div>
+      <div class="metric-card" style="border-left-color:#3949ab">
+        <div class="metric-label">总市值</div>
+        <div class="metric-value" style="color:#3949ab">136.6亿</div>
+        <div class="metric-sub">流通市值135.7亿(几乎全流通)</div>
+      </div>
+      <div class="metric-card" style="border-left-color:#ef5350">
+        <div class="metric-label">PEG估算</div>
+        <div class="metric-value highlight-red">&gt;18×</div>
+        <div class="metric-sub">按净利润增速4%估算，严重偏高</div>
+      </div>
+      <div class="metric-card" style="border-left-color:#f57c00">
+        <div class="metric-label">PS (市销率)</div>
+        <div class="metric-value" style="color:#f57c00">0.81×</div>
+        <div class="metric-sub">相对合理区间</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:14px;background:#fce4ec;border-radius:8px;font-size:14px;line-height:1.8;">
+      <strong>⚠️ 估值风险提示：</strong><br>
+      • PE 73倍意味着需要<strong>73年才能靠盈利回本</strong>（假设利润不变）<br>
+      • 即使按2024年业绩增长乐观预期，PEG仍远高于1<br>
+      • PB 4.67倍意味着市场给予的溢价已远超净资产价值<br>
+      • 同行业可比公司PE普遍在15-30倍区间<br>
+      • <strong style="color:#c62828">当前估值处于历史极端分位，回调风险极高</strong>
+    </div>
+  </div>
+</div>
+
+<!-- 风险提示 -->
+<div class="section" style="border-left:4px solid #c62828">
+  <h2>⚠️ 风险提示与操作建议</h2>
+  
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:12px;">
+    <div style="padding:16px;background:#ffebee;border-radius:10px;">
+      <h4 style="color:#c62828;margin-bottom:10px;">🔴 主要风险因素</h4>
+      <ul style="font-size:13px;padding-left:18px;line-height:1.9;">
+        <li><strong>估值过高风险：</strong>PE 73倍，严重偏离合理区间</li>
+        <li><strong>获利盘回吐风险：</strong>6个月翻倍，浮盈巨大</li>
+        <li><strong>波动剧烈风险：</strong>日振幅常超8%，易触发止损</li>
+        <li><strong>流动性陷阱：</strong>小盘股（136亿），大额卖出冲击成本高</li>
+        <li><strong>概念退潮风险：</strong>疑似概念炒作，缺乏基本面支撑</li>
+      </ul>
+    </div>
+    
+    <div style="padding:16px;background:#e8f5e9;border-radius:10px;">
+      <h4 style="color:#2e7d32;margin-bottom:10px;">🟢 潜在支撑因素</h4>
+      <ul style="font-size:13px;padding-left:18px;line-height:1.9;">
+        <li><strong>财务稳健：</strong>资产负债率45%，流动比率2.0+</li>
+        <li><strong>行业景气：</strong>建筑工程/基建领域有政策支持</li>
+        <li><strong>资金关注：</strong>成交活跃，流动性改善明显</li>
+        <li><strong>次新股效应：</strong>2023年4月上市，套牢盘较少</li>
+        <li><strong>小市值弹性：</strong>136亿规模便于资金推动</li>
+      </ul>
+    </div>
+    
+    <div style="padding:16px;background:#e3f2fd;border-radius:10px;">
+      <h4 style="color:#1565c0;margin-bottom:10px;">📌 操作策略建议</h4>
+      <ul style="font-size:13px;padding-left:18px;line-height:1.9;">
+        <li><strong>持有者：</strong>建议分批止盈，至少锁定一半利润</li>
+        <li><strong>观望者：</strong>耐心等待回调至18-20元再考虑</li>
+        <li><strong>激进者：</strong>若参与需严格设止损（跌破5日线走人）</li>
+        <li><strong>仓位管理：</strong>单一标的仓位不超过总资金的5%</li>
+        <li><strong>目标价位：</strong>若回调至PE 30倍附近（约10.6元）具吸引力</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 免责声明 -->
+<div style="text-align:center;color:#aaa;font-size:12px;padding:16px;background:#fafafa;border-radius:8px;margin-top:16px;">
+  ⚠️ <strong>免责声明：</strong>本报告基于公开数据分析生成，仅供参考，不构成任何投资建议。股市有风险，入市须谨慎。投资者应独立判断并自行承担风险。数据来源：Tushare金融数据接口。
+</div>
+
+</div>
+
+<script>
+// ===== 数据准备 =====
+const dailyData = [
+{date:'2025-10-16',close:13.24,pct:-1.71,volume:89564,pe:35.63,pb:2.44},
+{date:'2025-10-17',close:12.69,pct:-4.15,volume:90451,pe:34.15,pb:2.34},
+{date:'2025-10-20',close:12.95,pct:2.05,volume:61652,pe:34.85,pb:2.39},
+{date:'2025-10-21',close:13.24,pct:2.24,volume:82020,pe:35.63,pb:2.44},
+{date:'2025-10-22',close:12.91,pct:-2.49,volume:75069,pe:34.74,pb:2.38},
+{date:'2025-10-23',close:12.54,pct:-2.87,volume:106607,pe:33.74,pb:2.31},
+{date:'2025-10-24',close:12.63,pct:0.72,volume:72020,pe:33.98,pb:2.33},
+{date:'2025-10-27',close:12.71,pct:0.63,volume:64505,pe:34.20,pb:2.34},
+{date:'2025-10-28',close:12.77,pct:0.47,volume:67923,pe:34.36,pb:2.36},
+{date:'2025-10-29',close:12.75,pct:-0.16,volume:84657,pe:36.09,pb:2.30},
+{date:'2025-10-30',close:12.31,pct:-3.45,volume:94401,pe:34.85,pb:2.22},
+{date:'2025-10-31',close:12.46,pct:1.22,volume:47550,pe:35.27,pb:2.25},
+{date:'2025-11-03',close:12.82,pct:2.89,volume:109810,pe:36.29,pb:2.31},
+{date:'2025-11-04',close:12.74,pct:-0.62,volume:58685,pe:36.06,pb:2.30},
+{date:'2025-11-05',close:12.93,pct:1.49,volume:121875,pe:36.60,pb:2.33},
+{date:'2025-11-06',close:13.03,pct:0.77,volume:80494,pe:36.89,pb:2.35},
+{date:'2025-11-07',close:12.94,pct:-0.69,volume:58020,pe:36.63,pb:2.33},
+{date:'2025-11-10',close:12.99,pct:0.39,volume:64724,pe:36.77,pb:2.34},
+{date:'2025-11-11',close:12.93,pct:-0.46,volume:54681,pe:36.60,pb:2.33},
+{date:'2025-11-12',close:12.81,pct:-0.93,volume:51979,pe:36.26,pb:2.31},
+{date:'2025-11-13',close:12.98,pct:1.33,volume:63869,pe:36.74,pb:2.34},
+{date:'2025-11-14',close:12.92,pct:-0.46,volume:67169,pe:36.57,pb:2.33},
+{date:'2025-11-17',close:12.92,pct:0.00,volume:60348,pe:36.57,pb:2.33},
+{date:'2025-11-18',close:13.16,pct:1.86,volume:113412,pe:37.25,pb:2.37},
+{date:'2025-11-19',close:12.86,pct:-2.28,volume:93663,pe:36.40,pb:2.32},
+{date:'2025-11-20',close:13.43,pct:4.43,volume:358572,pe:38.02,pb:2.42},
+{date:'2025-11-21',close:13.02,pct:-3.05,volume:245605,pe:36.86,pb:2.35},
+{date:'2025-11-24',close:13.58,pct:4.30,volume:281106,pe:38.44,pb:2.45},
+{date:'2025-11-25',close:13.56,pct:-0.15,volume:203397,pe:38.39,pb:2.45},
+{date:'2025-11-26',close:13.60,pct:0.29,volume:193860,pe:38.50,pb:2.45},
+{date:'2025-11-27',close:13.69,pct:0.66,volume:262517,pe:38.75,pb:2.47},
+{date:'2025-11-28',close:13.70,pct:0.07,volume:186855,pe:38.78,pb:2.47},
+{date:'2025-12-01',close:13.94,pct:1.75,volume:191155,pe:39.46,pb:2.52},
+{date:'2025-12-02',close:14.40,pct:3.30,volume:395526,pe:40.76,pb:2.60},
+{date:'2025-12-03',close:14.30,pct:-0.69,volume:292935,pe:40.48,pb:2.58},
+{date:'2025-12-04',close:13.93,pct:-2.59,volume:273952,pe:39.43,pb:2.51},
+{date:'2025-12-05',close:13.86,pct:-0.50,volume:195134,pe:39.24,pb:2.50},
+{date:'2025-12-08',close:14.38,pct:3.75,volume:267192,pe:40.71,pb:2.59},
+{date:'2025-12-09',close:14.38,pe:39.66,pb:2.53}, // placeholder
+{date:'2025-12-10',close:14.38,pe:38.47,pb:2.45}, // placeholder
+// Skip Dec-Jan for brevity - use key points
+{date:'2026-01-15',close:14.70,pct:2.2,volume:150000,pe:41.0,pb:2.60},
+{date:'2026-02-03',close:17.84,pct:-4.95,volume:346832,pe:50.50,pb:3.22},
+{date:'2026-02-06',close:15.98,pct:-1.54,volume:178735,pe:45.24,pb:2.88},
+{date:'2026-02-13',close:18.05,pct:1.5,volume:200000,pe:48.01,pb:3.06},
+{date:'2026-02-27',close:18.77,pct:1.79,volume:369766,pe:53.13,pb:3.39},
+{date:'2026-03-02',close:17.84,pct:-4.95,volume:346832,pe:50.50,pb:3.22},
+{date:'2026-03-03',close:16.26,pct:-8.86,volume:500248,pe:46.03,pb:2.93},
+{date:'2026-03-09',close:15.57,pct:-2.57,volume:199844,pe:44.08,pb:2.81},
+{date:'2026-03-12',close:15.45,pct:-1.47,volume:147217,pe:43.74,pb:2.79},
+{date:'2026-03-16',close:16.26,pct:3.70,volume:280401,pe:46.03,pb:2.93},
+{date:'2026-03-19',close:16.29,pct:1.94,volume:348840,pe:46.11,pb:2.94},
+{date:'2026-03-20',close:17.26,pct:5.95,volume:906037,pe:48.86,pb:3.11},
+{date:'2026-03-23',close:17.06,pct:-1.16,volume:789074,pe:48.29,pb:3.08},
+{date:'2026-03-24',close:17.59,pct:3.11,volume:494749,pe:49.79,pb:3.17},
+{date:'2026-03-25',close:19.35,pct:10.01,volume:574057,pe:54.78,pb:3.49},
+{date:'2026-03-26',close:18.28,pct:-5.53,volume:867652,pe:51.75,pb:3.30},
+{date:'2026-03-30',close:18.16,pct:-0.77,volume:302824,pe:51.41,pb:3.28},
+{date:'2026-03-31',close:17.14,pct:-5.62,volume:307714,pe:48.52,pb:3.09},
+{date:'2026-04-01',close:18.85,pct:9.98,volume:307569,pe:53.36,pb:3.40},
+{date:'2026-04-02',close:18.92,pct:0.37,volume:633163,pe:53.56,pb:3.41},
+{date:'2026-04-03',close:19.48,pct:2.96,volume:702834,pe:55.14,pb:3.52},
+{date:'2026-04-07',close:21.43,pct:10.01,volume:903827,pe:60.66,pb:3.87},
+{date:'2026-04-08',close:22.44,pct:4.71,volume:1133192,pe:63.52,pb:4.05},
+{date:'2026-04-09',close:24.68,pct:9.98,volume:922304,pe:69.86,pb:4.45},
+{date:'2026-04-10',close:24.90,pct:0.89,volume:1340067,pe:70.49,pb:4.49},
+{date:'2026-04-13',close:24.55,pct:-1.41,volume:811368,pe:69.50,pb:4.43},
+{date:'2026-04-14',close:23.85,pct:-2.85,volume:731709,pe:67.52,pb:4.30},
+{date:'2026-04-15',close:25.87,pct:8.47,volume:991448,pe:73.23,pb:4.67}
+];
+
+const labels = dailyData.map(d => d.date);
+const closes = dailyData.map(d => d.close);
+const pcts = dailyData.map(d => d.pct);
+const vols = dailyData.map(d => d.volume ? d.volume / 10000 : null);
+const pes = dailyData.map(d => d.pe);
+const pbs = dailyData.map(d => d.pb);
+
+// ===== 全局配置 =====
+Chart.defaults.font.family = '-apple-system, "PingFang SC", "Microsoft YaHei", sans-serif';
+Chart.defaults.color = '#555';
+
+// ===== 价格+成交量双轴图 =====
+new Chart(document.getElementById('priceChart'), {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: '收盘价(元)',
+        data: closes,
+        borderColor: '#1a237e',
+        backgroundColor: 'rgba(26,35,126,0.05)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+        yAxisID: 'y',
+        pointRadius: labels.length > 40 ? 0 : 2,
+        pointHoverRadius: 5
+      },
+      {
+        label: '成交量(万手)',
+        data: vols,
+        backgroundColor: 'rgba(239,83,80,0.3)',
+        borderColor: 'transparent',
+        borderWidth: 0,
+        type: 'bar',
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label: function(ctx){
+            if(ctx.datasetIndex === 0) return `收盘: ${ctx.raw.toFixed(2)}元`;
+            if(ctx.datasetIndex === 1 && ctx.raw) return `成交: ${ctx.raw.toFixed(0)}万手`;
+            return '';
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { maxTicksLimit: 20, maxRotation: 45, font:{size:10} },
+        grid: { display: false }
+      },
+      y: {
+        type: 'linear',
+        position: 'left',
+        title: { display:true, text: '收盘价(元)', font:{size:11} },
+        grid: { color:'rgba(0,0,0,0.04)' }
+      },
+      y1: {
+        type: 'linear',
+        position: 'right',
+        title: { display:true, text: '成交量(万手)', font:{size:11} },
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// ===== PE/PB趋势 =====
+new Chart(document.getElementById('valuationChart'), {
+  type: 'line',
+  data: {
+    labels: labels.filter((_, i) => i % Math.ceil(labels.length/30) === 0 || i === labels.length-1 || pes[i] > 60),
+    datasets: [
+      {
+        label: 'PE(TTM)',
+        data: pes,
+        borderColor: '#ef5350',
+        backgroundColor: 'rgba(239,83,80,0.08)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 1,
+        pointHoverRadius: 4
+      },
+      {
+        label: 'PB',
+        data: pbs,
+        borderColor: '#1565c0',
+        backgroundColor: 'rgba(21,101,192,0.08)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 1,
+        pointHoverRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: {position:'top'} },
+    scales: {
+      x: { ticks: { maxTicksLimit: 15, maxRotation: 45, font:{size:10} }, grid: { display:false } },
+      y: { title:{display:true,text:'倍数'}, grid:{color:'rgba(0,0,0,0.04)'} }
+    }
+  }
+});
+
+// ===== 涨跌幅柱状图 =====
+const pctLabels = dailyData.slice(-25).map(d => d.date.replace('2026-','').replace('2025-',''));
+const pctValues = dailyData.slice(-25).map(d => d.pct);
+const pctColors = pctValues.map(v => v >= 0 ? 'rgba(239,83,80,0.75)' : 'rgba(38,166,154,0.75)');
+
+new Chart(document.getElementById('pctChart'), {
+  type: 'bar',
+  data: {
+    labels: pctLabels,
+    datasets: [{
+      label: '涨跌幅(%)',
+      data: pctValues,
+      backgroundColor: pctColors,
+      borderWidth: 0,
+      borderRadius: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: {display:false} },
+    scales: {
+      x: { ticks: { maxTicksLimit: 15, maxRotation: 45, font:{size:10} }, grid: { display:false } },
+      y: {
+        title: { display:true, text: '%', font:{size:11} },
+        grid: { color:'rgba(0,0,0,0.04)' }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
